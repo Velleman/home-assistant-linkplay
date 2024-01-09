@@ -1,0 +1,4 @@
+.vscode
+.devcontainer
+Dockerfile
+__pycache__

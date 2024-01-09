@@ -1,0 +1,15 @@
+{
+    "domain": "linkplay",
+    "name": "LinkPlay",
+    "version": "0.0.0",
+    "after_dependencies": ["http"],
+    "integration_type": "hub",
+    "iot_class": "local_polling",
+    "requirements": ["git+https://github.com/velleman/python-linkplay.git@wip#0.0.0"],
+    "config_flow": true,
+    "ssdp": [
+        {
+          "deviceType": "urn:schemas-upnp-org:device:MediaRenderer:1"
+        }
+      ]
+  }
