@@ -2,7 +2,7 @@ from typing import Dict
 from homeassistant.const import Platform
 from homeassistant.components.media_player import MediaPlayerState, RepeatMode
 
-from linkplay.consts import PlayingStatus, PlaymodeSupport, LoopMode, EqualizerMode
+from linkplay.consts import PlayingStatus, PlaymodeSupport, LoopMode, EqualizerMode, PlaybackMode
 
 DOMAIN = "linkplay"
 CONF_IP = "ip"
@@ -26,7 +26,12 @@ INPUT_MAP: Dict[PlaymodeSupport, str] = {
     PlaymodeSupport.OPTICAL_2: "Optical 2"
 }
 
-SOURCE_MAP: Dict[str, PlaymodeSupport] = {v: k for k, v in INPUT_MAP.items()}
+SOURCE_MAP: Dict[PlaybackMode, str] = {
+    PlaybackMode.LINE_IN: "Line In",
+    PlaybackMode.BLUETOOTH: "Bluetooth",
+    PlaybackMode.OPTICAL: "Optical",
+    PlaybackMode.LINE_IN_2: "Line In 2",
+}
 
 REPEAT_MAP: Dict[LoopMode, RepeatMode] = {
     LoopMode.CONTINOUS_PLAY_ONE_SONG: RepeatMode.ONE,

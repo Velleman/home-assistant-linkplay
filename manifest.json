@@ -1,15 +1,17 @@
 {
-    "domain": "linkplay",
-    "name": "LinkPlay",
-    "version": "0.0.0",
-    "after_dependencies": ["http"],
-    "integration_type": "hub",
-    "iot_class": "local_polling",
-    "requirements": ["git+https://github.com/velleman/python-linkplay.git@wip#0.0.0"],
-    "config_flow": true,
-    "ssdp": [
-        {
-          "deviceType": "urn:schemas-upnp-org:device:MediaRenderer:1"
-        }
-      ]
-  }
+  "domain": "linkplay",
+  "name": "LinkPlay",
+  "version": "0.0.0",
+  "after_dependencies": ["http"],
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "requirements": ["python-linkplay==0.0.0"],
+  "dependencies": ["ssdp", "zeroconf"],
+  "config_flow": true,
+  "ssdp": [
+      {
+        "deviceType": "urn:schemas-upnp-org:device:MediaRenderer:1"
+      }
+  ],
+  "zeroconf": ["_linkplay._tcp.local."]
+}

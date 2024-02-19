@@ -5,6 +5,10 @@ import voluptuous as vol
 
 from .const import DOMAIN, CONF_IP
 
+CONFIG_SCHEMA = vol.Schema({
+    vol.Required(CONF_IP): str
+})
+
 
 class LinkPlayConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """LinkPlay config flow."""
@@ -17,18 +21,17 @@ class LinkPlayConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
 
-        # Specify items in the order they are to be displayed in the UI
-        data_schema = vol.Schema({
-            vol.Required(CONF_IP): str
-        })
+        errors = {}
 
         if user_input:
-            # Return the form of the next step
             return self.async_create_entry(title="LinkPlay", data=user_input)
 
-        return self.async_show_form(step_id="user", data_schema=data_schema)
+        return self.async_show_form(step_id="user", data_schema=CONFIG_SCHEMA, errors=errors)
 
     async def async_step_ssdp(self, info):
+        pass
+
+    async def async_step_zeroconf(self, discovery_info):
         pass
 
     async def async_finish_flow(flow, result):
