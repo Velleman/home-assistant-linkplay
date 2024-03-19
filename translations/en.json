@@ -8,6 +8,10 @@
                     "ip": "[%key:common::config_flow::data::ip%]"
                 }
             }
+        },
+        "errors": {
+            "already_configured": "This device has already been configured",
+            "could_not_connect": "Could not connect to the device"
         }
     }
 }
