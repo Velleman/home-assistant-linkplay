@@ -12,10 +12,11 @@ from homeassistant.const import CONF_HOST
 
 from linkplay.bridge import LinkPlayBridge
 from linkplay.consts import LoopMode, PlayingStatus
-from linkplay.discovery import linkplay_factory_bridge
+from linkplay.discovery import linkplay_factory_bridge, discover_linkplay_bridges
 
 from .const import (
     DOMAIN,
+    BRIDGE_DISCOVERED,
     STATE_MAP,
     REPEAT_MAP,
     REPEAT_MAP_INV,
@@ -36,17 +37,13 @@ async def async_setup_entry(
 ) -> None:
     """Set up a media player from a config entry."""
 
-    session = async_get_clientsession(hass)
-
     @callback
-    async def async_create_entity() -> None:
-        bridge = await linkplay_factory_bridge(entry.data[CONF_HOST], session)
-        if bridge:
-            hass.data[DOMAIN][entry.entry_id] = bridge
-            async_add_entities([LinkPlayMediaPlayerEntity(bridge)])
+    def add_entity(bridge: LinkPlayBridge):
+        async_add_entities([LinkPlayMediaPlayerEntity(bridge)])
 
-    await async_create_entity()
-
+    entry.async_on_unload(
+        async_dispatcher_connect(hass, BRIDGE_DISCOVERED, add_entity)
+    )
 
 class LinkPlayMediaPlayerEntity(MediaPlayerEntity):
     """Representation of a LinkPlay media player."""
