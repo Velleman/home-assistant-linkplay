@@ -4,7 +4,6 @@ from homeassistant.components.media_player import MediaPlayerState, RepeatMode, 
 from linkplay.consts import PlayingStatus, PlayingMode, LoopMode, EqualizerMode
 
 DOMAIN = "linkplay"
-CONF_IP = "ip"
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
 STATE_MAP: dict[PlayingStatus, MediaPlayerState] = {

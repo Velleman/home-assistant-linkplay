@@ -1,17 +1,23 @@
 {
+    "title": "LinkPlay device",
     "config": {
         "step": {
             "user": {
                 "title": "LinkPlay device",
                 "description": "Add a LinkPlay device",
                 "data": {
-                    "ip": "[%key:common::config_flow::data::ip%]"
+                    "name": "Name",
+                    "host": "Host"
                 }
+            },
+            "discovery_confirm": {
+                "title": "Confirm your device",
+                "description": "Do you wish to add device '{name}' to HomeAssistant?"
             }
         },
-        "errors": {
-            "already_configured": "This device has already been configured",
-            "could_not_connect": "Could not connect to the device"
+        "abort": {
+            "already_configured": "LinkPlay device has already been configured",
+            "cannot_connect": "Unable to connect to the bridge"
         }
     }
 }

@@ -13,5 +13,5 @@
         "deviceType": "urn:schemas-upnp-org:device:MediaRenderer:1"
       }
   ],
-  "zeroconf": ["_linkplay._tcp.local.", "_spotify-connect._tcp.local."]
+  "zeroconf": ["_linkplay._tcp.local."]
 }

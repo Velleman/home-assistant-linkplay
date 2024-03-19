@@ -8,6 +8,7 @@ from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.dt import utcnow
+from homeassistant.const import CONF_HOST
 
 from linkplay.bridge import LinkPlayBridge
 from linkplay.consts import LoopMode, PlayingStatus
@@ -15,7 +16,6 @@ from linkplay.discovery import linkplay_factory_bridge
 
 from .const import (
     DOMAIN,
-    CONF_IP,
     STATE_MAP,
     REPEAT_MAP,
     REPEAT_MAP_INV,
@@ -40,7 +40,7 @@ async def async_setup_entry(
 
     @callback
     async def async_create_entity() -> None:
-        bridge = await linkplay_factory_bridge(entry.data[CONF_IP], session)
+        bridge = await linkplay_factory_bridge(entry.data[CONF_HOST], session)
         if bridge:
             hass.data[DOMAIN][entry.entry_id] = bridge
             async_add_entities([LinkPlayMediaPlayerEntity(bridge)])
