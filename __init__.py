@@ -14,7 +14,7 @@ from .const import DOMAIN, PLATFORMS, DISCOVERY_SCAN_INTERVAL, BRIDGE_DISCOVERED
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Async setup hass config entry. Called when an entry has been setup."""
 
-    hass.data.setdefault(DOMAIN, {})[BRIDGE_UUIDS] = []
+    hass.data.setdefault(DOMAIN, {BRIDGE_UUIDS: []})
     session = async_get_clientsession(hass)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

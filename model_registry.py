@@ -2,7 +2,7 @@ from typing import Final
 
 MANUFACTURER_ARTSOUND: Final[str] = "ArtSound"
 MANUFACTURER_GENERIC: Final[str] = "Generic"
-MODELS_ARTSOUND_SMART_ZONE4: Final[str] = "Smart Zone 4"
+MODELS_ARTSOUND_SMART_ZONE4: Final[str] = "Smart Zone 4 AMP"
 MODELS_ARTSOUND_SMART_HYDE: Final[str] = "Smart Hyde"
 MODELS_GENERIC: Final[str] = "Generic"
 
