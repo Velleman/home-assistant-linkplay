@@ -3,16 +3,14 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.components import media_source
-from homeassistant.components.media_player import MediaPlayerEntity, MediaPlayerEntityFeature, MediaPlayerDeviceClass, MediaType
+from homeassistant.components.media_player import MediaPlayerEntity, MediaPlayerDeviceClass, MediaType
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.dt import utcnow
-from homeassistant.const import CONF_HOST
 
 from linkplay.bridge import LinkPlayBridge
 from linkplay.consts import LoopMode, PlayingStatus
-from linkplay.discovery import linkplay_factory_bridge, discover_linkplay_bridges
 
 from .const import (
     DOMAIN,
@@ -20,7 +18,6 @@ from .const import (
     STATE_MAP,
     REPEAT_MAP,
     REPEAT_MAP_INV,
-    MediaPlayerState,
     EQUALIZER_MAP,
     EQUALIZER_MAP_INV,
     SOURCE_MAP,
@@ -29,6 +26,7 @@ from .const import (
     SEEKABLE_SOURCES,
     SEEKABLE_FEATURES
 )
+from .model_registry import get_info_from_project
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,20 +45,35 @@ async def async_setup_entry(
 
 class LinkPlayMediaPlayerEntity(MediaPlayerEntity):
     """Representation of a LinkPlay media player."""
-    bridge: LinkPlayBridge
-   
+
     def __init__(self, bridge: LinkPlayBridge):
         self.bridge = bridge
 
-        self._attr_unique_id = f"{DOMAIN}.{self.bridge.device.uuid}"
-        self.entity_id = self._attr_unique_id
+        self._attr_unique_id = self.entity_id = f"{DOMAIN}.{self.bridge.device.uuid}"
         self._attr_name = self.bridge.device.name
         self._attr_sound_mode_list = list(EQUALIZER_MAP.values())
         self._attr_should_poll = True
         self._attr_device_class = MediaPlayerDeviceClass.RECEIVER
         self._attr_source_list = [SOURCE_MAP[playing_mode] for playing_mode in self.bridge.device.playmode_support]
         self._attr_media_content_type = MediaType.MUSIC
-        self._attr_supported_features = DEFAULT_FEATURES
+
+    @property
+    def device_info(self) -> dr.DeviceInfo:
+        """Return the device info."""
+        manufacturer, model = get_info_from_project(self.bridge.device.properties["project"])
+        return dr.DeviceInfo(
+            configuration_url=self.bridge.endpoint,
+            connections={(dr.CONNECTION_NETWORK_MAC, self.bridge.device.properties["MAC"])},
+            entry_type=None,
+            hw_version=self.bridge.device.properties["hardware"],
+            identifiers={(DOMAIN, self.bridge.device.uuid)},
+            manufacturer=manufacturer,
+            model=model,
+            name=self.bridge.device.name,
+            suggested_area=None,
+            sw_version=self.bridge.device.properties["firmware"],
+            via_device=(DOMAIN, DOMAIN)
+        )
 
     async def async_update(self):
         """Update the state of the media player."""
@@ -131,10 +144,9 @@ class LinkPlayMediaPlayerEntity(MediaPlayerEntity):
         self._attr_shuffle = self.bridge.player.loop_mode == LoopMode.RANDOM_PLAYBACK
         self._attr_sound_mode = EQUALIZER_MAP[self.bridge.player.equalizer_mode]
 
+        self._attr_supported_features = DEFAULT_FEATURES
         if self.bridge.player.play_mode in SEEKABLE_SOURCES:
-            self._attr_supported_features = DEFAULT_FEATURES | SEEKABLE_FEATURES
-        else:
-            self._attr_supported_features = DEFAULT_FEATURES
+            self._attr_supported_features = self._attr_supported_features | SEEKABLE_FEATURES
 
         if self.bridge.player.status == PlayingStatus.PLAYING:
             self._attr_source = SOURCE_MAP[self.bridge.player.play_mode]

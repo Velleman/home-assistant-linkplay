@@ -4,7 +4,7 @@ from homeassistant.components.media_player import MediaPlayerState, RepeatMode, 
 from linkplay.consts import PlayingStatus, PlayingMode, LoopMode, EqualizerMode
 
 DOMAIN = "linkplay"
-BRIDGES = "bridges"
+BRIDGE_UUIDS = "bridges"
 BRIDGE_DISCOVERED = "bridge_discovered"
 DISCOVERY_SCAN_INTERVAL = 300
 PLATFORMS = [Platform.MEDIA_PLAYER]
@@ -69,7 +69,7 @@ SEEKABLE_SOURCES = [
 DEFAULT_FEATURES: MediaPlayerEntityFeature = MediaPlayerEntityFeature.PLAY | \
             MediaPlayerEntityFeature.PLAY_MEDIA | \
             MediaPlayerEntityFeature.BROWSE_MEDIA | \
-	        MediaPlayerEntityFeature.PAUSE | \
+            MediaPlayerEntityFeature.PAUSE | \
             MediaPlayerEntityFeature.STOP | \
             MediaPlayerEntityFeature.VOLUME_MUTE | \
             MediaPlayerEntityFeature.VOLUME_SET | \
