@@ -1,23 +1,27 @@
 {
-    "title": "LinkPlay device",
-    "config": {
-        "step": {
-            "user": {
-                "title": "LinkPlay device",
-                "description": "Add a LinkPlay device",
-                "data": {
-                    "name": "Name",
-                    "host": "Host"
-                }
+    "title": "LinkPlay",
+    "entity": {
+        "media_player": {
+            "sound_mode": {
+                "none": "None",
+                "classic": "Classic",
+                "pop": "Pop",
+                "jazz": "Jazz",
+                "vocal": "Vocal"
             },
-            "discovery_confirm": {
-                "title": "Confirm your device",
-                "description": "Do you wish to add device '{name}' to HomeAssistant?"
+            "source_list": {
+                "linein": "Line In",
+                "bluetooth": "Bluetooth",
+                "optical": "Optical",
+                "linein2": "Line In 2",
+                "usbdac": "USB DAC",
+                "coaxial": "Coaxial",
+                "xlr": "XLR",
+                "hdmi": "HDMI",
+                "optical2": "Optical 2",
+                "network": "Network",
+                "other": "Other"
             }
-        },
-        "abort": {
-            "already_configured": "LinkPlay device has already been configured",
-            "cannot_connect": "Unable to connect to the bridge"
         }
     }
 }

@@ -2,11 +2,11 @@
   "domain": "linkplay",
   "name": "LinkPlay",
   "codeowners": ["@Velleman"],
-  "version": "0.0.2",
+  "version": "0.0.4",
   "after_dependencies": ["http"],
   "integration_type": "hub",
   "iot_class": "local_polling",
-  "requirements": ["python-linkplay==0.0.2"],
+  "requirements": ["python-linkplay==0.0.4"],
   "dependencies": ["ssdp", "zeroconf"],
   "config_flow": true,
   "ssdp": [
